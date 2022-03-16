@@ -47,7 +47,7 @@ let secondsLeft = 120;
 let questionPrompt = $("#question-prompt");
 let ansContainEl = $("#answer-buttons");
 let startButton = $("#start-btn");
-let previousButton = $("#prev-btn");
+let previousButton = $("#previous-btn");
 let nextButton = $("#next-btn");
 let submitButton = $("#submit-btn");
 
@@ -55,7 +55,7 @@ $(ansContainEl).on("click", selectAnswer);
 $(startButton).on("click", Start);
 $(nextButton).on("click", nextQuestion);
 $(previousButton).on("click", prevQuest);
-$(submitButton).on("click", results);
+$(submitButton).on("click", Results);
 
 function Start() {
   startTimer = 1;
@@ -94,6 +94,18 @@ function selectAnswer(e) {
   }
 }
 
+function prevAnswerStyle() {
+    if(userAnswers[questionIndex] != "") {
+        let prevAnswerID = uniqueId(userAnswers[questionIndex])
+        let answerID = uniqueId(questions[questionInd].answer);
+        if(prevAnswerID == answerID) {
+            $('#'+prevAnswerID).addClass('btn-success');
+        }else{
+            $('#'+prevAnswerID).addClass('btn-danger'); 
+        }
+    }
+}
+
 function nextQuestion() {
   resetQuestions();
   let qi = 1;
@@ -108,7 +120,7 @@ function nextQuestion() {
     $(button).text(ans);
     $("#answer-buttons").append(button);
   });
-  prevAnsStyle();
+  prevAnswerStyle();
   if (questionInd == 1) {
     $(previousButton).removeClass("hide");
   }
@@ -116,4 +128,70 @@ function nextQuestion() {
     $(nextButton).addClass("hide");
     $(submitButton).removeClass("hide");
   }
+}
+
+function Reset() {
+    if(score == "") {
+        $("#answer-buttons").empty();
+    }else {
+        startTimer = 0;
+        $("#quiz-card").empty();
+    }
+}
+
+function Results() {
+    score = ((correctAnswers/userAnswers.length) * 100).toFixed(1);
+    Reset()
+
+    let saveForm = $("<div>");
+    let saveFormBtn = $("<button>");
+    let formButtons = $("<div>");
+    let formRetryBtn =  $("<button>");
+    let formClearBtn =  $("<button>");
+    let formLabel = $("<label>");
+    let formInput = $("<input>");
+    let formSmall = $("<small>");
+    let resultStyle = $("<div>");
+    let line = $("<div>"); 
+    let space = $("<br/>");
+    let scoreHistory = $("<ul>");
+
+    $(resultStyle).addClass('card-title');
+    $(scoreHistory).addClass('list-group list-group-flush hide');
+    $(saveForm).addClass('form-group');
+    $(line).addClass('line');
+    $(scoreHistory).attr("id", "score-hist");
+    $(scoreHistory).text("Score History:");
+    $(resultStyle).text("Your score: " + score + "%");
+
+    $("#quiz-card").append(resultStyle,line,space,scoreHistory,saveForm,formButtons);
+
+    $(saveForm).attr("id", "form-save-score");
+    $(formInput).addClass('form-control');
+    $(formSmall).addClass('form-text text-muted');
+    $(formButtons).addClass('form-grp-btns');
+    $(formInput).attr("placeholder", "Your initials");
+    $(formButtons).attr("id", "form-control-btn");
+    $(formInput).attr("id", "form-input-init");
+    $(formLabel).text("Enter your initials");
+    $(formSmall).text("Click save to register your score!");
+
+    $("#form-save-score").append(formLabel,formInput,formSmall);
+
+    $(saveFormBtn).attr("type", "submit");
+    $(formRetryBtn).attr("type", "button");
+    $(formClearBtn).attr("type", "button");
+    $(saveFormBtn).addClass('btn btn-primary');
+    $(formRetryBtn).addClass('btn btn-primary');
+    $(formClearBtn).addClass('btn btn-danger hide');
+    $(saveFormBtn).attr("id", "save-btn");
+    $(formRetryBtn).attr("id", "retry-btn");
+    $(formClearBtn).attr("id", "clear-btn");
+    $(saveFormBtn).text("Save");
+    $(formRetryBtn).text("Retry");
+    $(formClearBtn).text("Clear");
+
+    $("#form-control-btn").append(saveFormBtn,formRetryBtn,formClearBtn);
+    $("#form-control-btn").on('click',formControlHandler);
+
 }
