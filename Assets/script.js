@@ -51,16 +51,17 @@ let previousButton = $("#prev-btn");
 let nextButton = $("#next-btn");
 let submitButton = $("#submit-btn");
 
-$(ansContainEl).on("click", selectAns);
+$(ansContainEl).on("click", selectAnswer);
 $(startButton).on("click", Start);
-$(nextButton).on("click", nextQuest);
+$(nextButton).on("click", nextQuestion);
 $(previousButton).on("click", prevQuest);
 $(submitButton).on("click", results);
 
 function Start() {
   startTimer = 1;
   randomizeQuest = shuffle(questions);
-  $(startButton).addClass("hide");pt
+  $(startButton).addClass("hide");
+  pt;
   $(questionPrompt).text(randomizeQuest[questionInd].question);
   questions[questionInd].options.forEach((ans) => {
     let button = $("<button>");
@@ -72,4 +73,47 @@ function Start() {
   });
   $(ansContainEl).removeClass("hide");
   $(nextButton).removeClass("hide");
+}
+
+function selectAnswer(e) {
+  if (userAnswers[questionInd] === "") {
+    if (e.target !== e.currentTarget) {
+      userAnswers.splice(questionInd, 1, e.target.textContent);
+      let answerID = uniqueId(questions[questionInd].answer);
+      if (e.target.id == answerID) {
+        $("#" + e.target.id).addClass("btn-success");
+        $("#" + e.target.id).removeClass("btn-primary");
+        correctAnswers++;
+      } else {
+        $("#" + e.target.id).addClass("btn-danger");
+        $("#" + e.target.id).removeClass("btn-primary");
+        secondsLeft -= 30;
+      }
+    }
+    e.stopPropagation();
+  }
+}
+
+function nextQuestion() {
+  resetQuestions();
+  let qi = 1;
+  questionState(qi);
+
+  $(questionPrompt).text(randomizeQuest[questionInd].question);
+  questions[questionInd].options.forEach((ans) => {
+    let button = $("<button>");
+    let buttonID = uniqueId(ans);
+    $(button).addClass("btn btn-primary btn-block chosen");
+    $(button).attr("id", buttonID);
+    $(button).text(ans);
+    $("#answer-buttons").append(button);
+  });
+  prevAnsStyle();
+  if (questionInd == 1) {
+    $(previousButton).removeClass("hide");
+  }
+  if (questionInd > 3) {
+    $(nextButton).addClass("hide");
+    $(submitButton).removeClass("hide");
+  }
 }
