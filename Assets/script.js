@@ -4,14 +4,12 @@ const questions = [
     options: ["strings", "booleans", "alerts", "numbers"],
     answer: "alerts",
   },
-
   {
     question:
       "The condition in an if / else statement is enclosed within _____.",
     options: ["quotes", "curly brackets", "parentheses", "square brackets"],
     answer: "parentheses",
   },
-
   {
     question: "Arrays in Javascript can be used to store _____.",
     options: [
@@ -22,14 +20,12 @@ const questions = [
     ],
     answer: "all of the above",
   },
-
   {
     question:
       "String values must be enclosed within _____ when being assigned to letiables.",
     options: ["commas", "curly brackets", "quotes", "parantheses"],
     answer: "quotes",
   },
-
   {
     question:
       "A very useful tool used during development and debugging for printing content to the debugger is:",
@@ -65,7 +61,7 @@ function Start() {
   $(questionPrompt).text(randomizeQuest[questionInd].question);
   questions[questionInd].options.forEach((ans) => {
     let button = $("<button>");
-    let buttonID = uniqueId(ans);
+    let buttonID = uniqueID(ans);
     $(button).addClass("btn btn-primary btn-block chosen");
     $(button).attr("id", buttonID);
     $(button).text(ans);
@@ -79,7 +75,7 @@ function selectAnswer(e) {
   if (userAnswers[questionInd] === "") {
     if (e.target !== e.currentTarget) {
       userAnswers.splice(questionInd, 1, e.target.textContent);
-      let answerID = uniqueId(questions[questionInd].answer);
+      let answerID = uniqueID(questions[questionInd].answer);
       if (e.target.id == answerID) {
         $("#" + e.target.id).addClass("btn-success");
         $("#" + e.target.id).removeClass("btn-primary");
@@ -96,8 +92,8 @@ function selectAnswer(e) {
 
 function prevAnswerStyle() {
     if(userAnswers[questionIndex] != "") {
-        let prevAnswerID = uniqueId(userAnswers[questionIndex])
-        let answerID = uniqueId(questions[questionInd].answer);
+        let prevAnswerID = uniqueID(userAnswers[questionIndex])
+        let answerID = uniqueID(questions[questionInd].answer);
         if(prevAnswerID == answerID) {
             $('#'+prevAnswerID).addClass('btn-success');
         }else{
@@ -114,7 +110,7 @@ function nextQuestion() {
   $(questionPrompt).text(randomizeQuest[questionInd].question);
   questions[questionInd].options.forEach((ans) => {
     let button = $("<button>");
-    let buttonID = uniqueId(ans);
+    let buttonID = uniqueID(ans);
     $(button).addClass("btn btn-primary btn-block chosen");
     $(button).attr("id", buttonID);
     $(button).text(ans);
@@ -193,5 +189,42 @@ function Results() {
 
     $("#form-control-btn").append(saveFormBtn,formRetryBtn,formClearBtn);
     $("#form-control-btn").on('click',formControlHandler);
-
 }
+
+function uniqueID(str) {
+    let uid = '';
+    for(let i = 0; i < 3; i++) {
+        uid += str.charAt(i)
+    }
+    return uid;
+}
+
+function Timer() {
+  let timerInterval = setInterval(function() {
+    if (starTimer > 0){
+        secondsLeft--;
+    }
+    document.getElementById("display").value = "" + secondsLeft + " sec";
+    if(secondsLeft <= 0) {
+        if(secondsLeft < 0) {
+            document.getElementById("display").value = " u suc"
+        }
+        clearInterval(timerInterval);
+        Results();
+    }
+  },
+  );
+}
+
+function shuffleArray(array) {
+    let elem = array.length, t, i;
+    while (elem) {
+      i = Math.floor(Math.random() * m--);
+      t = array[m];
+      array[m] = array[i];
+      array[i] = t;
+    }
+    return array;
+}
+
+Timer();
