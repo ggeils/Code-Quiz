@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Code Quiz</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="Assets/style.css">
+    </head>
+  
+    <body>
+        <nav class="navbar navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">Code Quiz</a>
+            <div>
+                <label id="label" class="text-light">Time Left:</label>
+                <input type="text" id="display" style="text-align:center;" maxlength="4" size="4" readonly/>
+            </div>
+        </nav>
+
+        <main>
+            <div class="container my-container">
+                <div class="col-md-12 wrapper">
+                    <div class="card mt-2">
+                        <div class="card-body" id="quiz-card">
+                            <div class="card-title" id="question-prompt">You have 2 minutes to complete the quiz, upon an incorrect answer, time will subtract from the clock. </div>
+                            <div class="line"><div>
+                            <br/>
+                            <div id="answers" class="hide">
+                            </div>
+
+                            <div class="quiz-controls">
+                                <button type="button" id="start-btn" class="start-btn btn btn-lg btn-primary">Start Quiz</button>
+                                <button type="button" id="prev-btn" class="prev-btn btn btn-lg btn-primary hide">Previous</button>
+                                <button type="button" id="next-btn" class="next-btn btn btn-lg btn-primary hide">Next</button>
+                                <button type="button" id="submit-btn" class="submit-btn btn btn-lg btn-primary hide">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="Assets/script.js"></script>
+    </body>
+</html>
