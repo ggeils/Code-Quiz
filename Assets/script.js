@@ -307,7 +307,8 @@ function Timer() {
       clearInterval(timerInterval);
       Results();
     }
-  });
+  },
+  1000);
 }
 
 function shuffleArray(array) {
